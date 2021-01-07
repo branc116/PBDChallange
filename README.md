@@ -10,7 +10,7 @@ I've done so by writing small pbd library in c++ and compiling it for web assemb
 ## You can test for yourself:
 
 * [Js implementation](https://matthias-research.github.io/pages/challenges/bodyChainPBD.html)
-* [Wasm implementation](https://ricko.us.to/PBDChallanges)
+* [Wasm implementation](https://ricko.us.to/PBDChallange)
 
 ## How to build
 
