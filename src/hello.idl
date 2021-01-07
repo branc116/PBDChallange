@@ -1,0 +1,98 @@
+interface vec3{
+  void vec3();
+  void vec3(float x, float  y, float z);
+  attribute float x;
+  attribute float y;
+  attribute float z;
+};
+interface quat {
+  void quat();
+  void quat(float w,float x,float y,float z);
+  attribute float x;
+  attribute float y;
+  attribute float z;
+  attribute float w;
+};
+
+interface Pose {
+  void Pose();
+  void copy([Const, Ref]Pose pose);
+  [Value]Pose clone();
+  [Const]void rotate([Ref]vec3 v);
+  [Const]void invRotate([Ref]vec3 v);
+  [Const]void transform([Ref]vec3 v);
+  [Const]void invTransform([Ref]vec3 v);
+  [Const]void transformPose([Ref]Pose pose);
+  [Value]attribute vec3 p;
+  [Value]attribute quat q;
+};
+
+interface Help {
+  void Help();
+  [Value]vec3 getQuatAxis0([Const, Ref]quat q);
+  [Value]vec3 getQuatAxis1([Const, Ref]quat q);
+  [Value]vec3 getQuatAxis2([Const, Ref]quat q);
+};
+
+
+interface Body {
+  void Body([Const, Ref]Pose pose);
+  void setBox([Const, Ref]vec3 size, float density);
+  void setBox([Const, Ref]vec3 size);
+  void applyRotation([Const, Ref]vec3 rot, float scale);
+  void applyRotation([Const, Ref]vec3 rot);
+  void integrate(float dt, [Const, Ref]vec3 gravity);
+  void update(float dt);
+  [Value]vec3 getVelocityAt([Const, Ref]vec3 pos);
+  float getInverseMass([Const, Ref]vec3 normal, [Const, Ref]vec3 pos);
+  float getInverseMass([Const, Ref]vec3 normal);
+  void applyCorrection([Const, Ref]vec3 corr, [Const, Ref]vec3 pos, boolean velocityLevel);
+  void applyCorrection([Const, Ref]vec3 corr, [Const, Ref]vec3 pos);
+  void applyCorrection([Const, Ref]vec3 corr);
+  [Value]attribute Pose pose;
+  [Value]attribute Pose prevPose;
+  [Value]attribute Pose origPose;
+  [Value]attribute vec3 vel;
+  [Value]attribute vec3 omega;
+  attribute float invMass;
+  [Value]attribute vec3 invInertia;
+};
+
+interface Joint {
+  attribute Body body0;
+  attribute Body body1;
+  [Value]attribute Pose localPose0;
+  [Value]attribute Pose localPose1;
+  [Value]attribute Pose globalPose0;
+  [Value]attribute Pose globalPose1;
+  
+  attribute long compliance;
+  attribute long rotDamping;
+  attribute long posDamping;
+  attribute boolean hasSwingLimits;
+  attribute float minSwingAngle;
+  attribute float maxSwingAngle;
+  attribute float swingLimitsCompliance;
+  attribute boolean hasTwistLimits;
+  attribute float minTwistAngle;
+  attribute float maxTwistAngle;
+  attribute float twistLimitCompliance;
+
+  void Joint(long type, Body body0, Body body1, [Const, Ref]Pose localPose0, [Const, Ref]Pose localPose1);
+
+  void updateGlobalPoses();
+  void solvePos(float dt);
+  void solveVel(float dt);
+};
+
+interface Simulator {
+  void Simulator();
+  void Delete();
+  void simulate(float timeStep, float numSubsteps, vec3 gravity);
+  Body addBody([Const, Ref]Body body);
+  Joint addJoint([Const, Ref]Joint joint);
+  void removeBody(Body body);
+  void removeJoint(Joint joint);
+  void popJoint();
+  vec3 getG();
+};
