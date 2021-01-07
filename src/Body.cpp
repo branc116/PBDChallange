@@ -2,7 +2,7 @@
 
 sc maxRotationPerSubstep = 0.5;
 
-void print(const vec3& vec) {
+void print(const vec3 &vec) {
   sc x = vec.x;
   sc y = vec.y;
   sc z = vec.z;
@@ -10,7 +10,7 @@ void print(const vec3& vec) {
   return;
 }
 
-void print(const Pose& p ) {
+void print(const Pose &p) {
   sc py = p.p.y;
   sc px = p.p.x;
   sc pz = p.p.z;
@@ -29,7 +29,7 @@ void print(const Pose& p ) {
 
 Body::Body(const Pose &pose) noexcept
     : pose{pose}, prevPose{pose}, origPose{pose}, vel{0.0}, omega{0.0},
-      invMass(1.0), invInertia{0.0} { }
+      invMass(1.0), invInertia{0.0} {}
 
 void Body::setBox(const vec3 &size, sc density) {
   float mass = size.x * size.y * size.z * density;
@@ -69,7 +69,7 @@ void Body::integrate(sc dt, const vec3 &gravity) {
 void Body::update(sc dt) {
   vel = (pose.p - prevPose.p) / dt;
   quat dq = pose.q * glm::conjugate(prevPose.q);
-  omega =  vec3(dq.x, dq.y, dq.z) * (sc(2.0) / dt);
+  omega = vec3(dq.x, dq.y, dq.z) * (sc(2.0) / dt);
   if (dq.w < 0.0)
     omega *= -1;
 }
@@ -120,11 +120,23 @@ void Body::applyCorrection(const vec3 &corr, bool velocityLevel) {
     applyRotation(dq);
 }
 void Body::DBG() {
-  std::cout << "pose: "; print(pose); std::cout << std::endl;
-  std::cout << "prevPose: "; print(prevPose); std::cout << std::endl;
-  std::cout << "origPose: "; print(origPose); std::cout << std::endl;
-  std::cout << "vel: "; print(vel); std::cout << std::endl;
-  std::cout << "omega: "; print(omega); std::cout << std::endl;
+  std::cout << "pose: ";
+  print(pose);
+  std::cout << std::endl;
+  std::cout << "prevPose: ";
+  print(prevPose);
+  std::cout << std::endl;
+  std::cout << "origPose: ";
+  print(origPose);
+  std::cout << std::endl;
+  std::cout << "vel: ";
+  print(vel);
+  std::cout << std::endl;
+  std::cout << "omega: ";
+  print(omega);
+  std::cout << std::endl;
   std::cout << "invMass: " << invMass << std::endl;
-  std::cout << "invInertia: "; print(invInertia); std::cout << std::endl;
+  std::cout << "invInertia: ";
+  print(invInertia);
+  std::cout << std::endl;
 }

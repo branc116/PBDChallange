@@ -75,7 +75,7 @@ quat Help::axisAngle(const vec3 &axis, sc angle) const {
   return quat(cos(halfAngle), axis * s);
 }
 
-void Help::limitAngle(Body* body0, Body* body1, vec3 n, const vec3 &a,
+void Help::limitAngle(Body *body0, Body *body1, vec3 n, const vec3 &a,
                       const vec3 &b, sc minAngle, sc maxAngle, sc compliance,
                       sc dt, sc maxCorr) const {
   vec3 c = cross(a, b);

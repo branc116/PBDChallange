@@ -22,9 +22,7 @@ void Simulator::simulate(sc timeStep, sc numSubsteps, vec3 *gravity) {
       m_bodies[j]->update(dt);
     for (int j = 0; j < m_joints.size(); j++)
       m_joints[j]->solveVel(dt);
-    
   }
-
 }
 
 Body *Simulator::addBody(const Body &body) {
