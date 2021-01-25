@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project version="2">
+	<pipeline>
+		<pass name="cestice" type="compute" active="true">
+			<shader type="cs" path="shaders/sustav_SimpleCS.glsl" entry="main" />
+			<groupsize x="128" y="4" z="1" />
+			<variables>
+				<variable type="float" name="iDeltaTime" system="TimeDelta" />
+				<variable type="float" name="deadAfter">
+					<row>
+						<value>100</value>
+					</row>
+				</variable>
+				<variable type="float" name="iTime" system="Time" />
+				<variable type="int" name="grid_x">
+					<row>
+						<value>1</value>
+					</row>
+				</variable>
+				<variable type="int" name="grid_z">
+					<row>
+						<value>32</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="Simple" type="shader" active="true">
+			<shader type="vs" path="shaders/sustav_SimpleVS.glsl" entry="main" />
+			<shader type="ps" path="shaders/sustav_SimplePS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="cub" type="geometry">
+					<type>Cube</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<instanced>true</instanced>
+					<instancecount>20000</instancecount>
+					<instancebuffer>cestice</instancebuffer>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float2" name="uResolution" system="ViewportSize" />
+				<variable type="float" name="uTime" system="Time" />
+				<variable type="float4x4" name="matGeo" system="GeometryTransform" />
+				<variable type="float4x4" name="matVP" system="ViewProjection" />
+				<variable type="float3" name="CamPos" system="CameraPosition3" />
+				<variable type="float3" name="CamDir" system="CameraPosition3" />
+			</variables>
+			<macros />
+		</pass>
+	</pipeline>
+	<objects>
+		<object type="buffer" name="cestice" size="64" format="vec4;vec4;vec4;vec4" pausedpreview="false">
+			<bind slot="0" name="cestice" />
+			<bind slot="0" name="Simple" />
+		</object>
+		<object type="texture" path="../../examples/Common/noise.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat" />
+	</objects>
+	<cameras />
+	<settings>
+		<entry type="pinned" name="deadAfter" owner="cestice" />
+		<entry type="pinned" name="grid_x" owner="cestice" />
+		<entry type="pinned" name="grid_z" owner="cestice" />
+		<entry type="camera" fp="true">
+			<positionX>-607.217407</positionX>
+			<positionY>73.815033</positionY>
+			<positionZ>36.4869232</positionZ>
+			<yaw>630.459961</yaw>
+			<pitch>-366.398895</pitch>
+		</entry>
+		<entry type="clearcolor" r="0" g="0" b="0" a="0" />
+		<entry type="usealpha" val="true" />
+	</settings>
+	<plugindata />
+</project>
