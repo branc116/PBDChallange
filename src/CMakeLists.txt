@@ -7,7 +7,7 @@ find_package(glm CONFIG REQUIRED)
 
 set(PYTHON ${Python3_EXECUTABLE} CACHE STRING "Python path")
 set(EMSCRIPTEN_ROOT $ENV{EMSDK}/upstream/emscripten CACHE STRING "Emscripten path")
-set(VCPKG_INCLUDE /home/branimir/github.com/microsoft/vcpkg/installed/x64-linux/include CACHE STRING "VCPKG path")
+set(ADITIONAL ${ADITIONAL_INCLUDE} CACHE STRING "ADITIONAL path")
 set(CMAKE_TOOLCHAIN_FILE ${EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake)
 set(WEBIDL_BINDER_SCRIPT ${EMSCRIPTEN_ROOT}/tools/webidl_binder.py)
 # set(PBD_FRONT_MATTER_FILE ${CMAKE_CURRENT_SOURCE_DIR}/front-matter.js)
@@ -65,7 +65,7 @@ else()
 endif()
 
 set(EMCC_JS_ARGS ${EMCC_ARGS}
-  -I${VCPKG_INCLUDE}
+  -I${ADITIONAL}
   -s AGGRESSIVE_VARIABLE_ELIMINATION=1
   -s ELIMINATE_DUPLICATE_FUNCTIONS=1
   -s LEGACY_VM_SUPPORT=1
@@ -73,14 +73,14 @@ set(EMCC_JS_ARGS ${EMCC_ARGS}
   -s WASM=0)
 
 set(EMCC_WASM_ARGS ${EMCC_ARGS}
-  -I${VCPKG_INCLUDE}
+  -I${ADITIONAL}
   -s BINARYEN_IGNORE_IMPLICIT_TRAPS=1
   -s WASM=1)
 
 set(EMCC_GLUE_ARGS
   -c
   -I${BULLET_SRC_DIR}
-  -I${VCPKG_INCLUDE}
+  -I${ADITIONAL}
   -include${PBD_HEADER_FILE})
 
 
